@@ -19,8 +19,9 @@ import java.time.LocalDateTime;
 public class UrlDto {
 
     @NotNull
-    private Integer key;
+    private String key;
 
+    @NotNull
     @NotBlank
     private String url;
 
