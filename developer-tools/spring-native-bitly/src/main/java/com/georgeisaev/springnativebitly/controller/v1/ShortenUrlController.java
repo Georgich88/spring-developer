@@ -2,10 +2,12 @@ package com.georgeisaev.springnativebitly.controller.v1;
 
 import com.georgeisaev.springnativebitly.data.dto.UrlDto;
 import com.georgeisaev.springnativebitly.service.ShortenUrlService;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Mono;
 
 import javax.validation.constraints.NotNull;
+import java.net.URI;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -33,12 +36,17 @@ public class ShortenUrlController {
     }
 
 
+    @ApiResponse(responseCode = "301")
     @GetMapping(value = "/{key}")
     @ResponseBody
     public Mono<ResponseEntity<String>> findUrlByKey(@PathVariable String key) {
         return Mono.fromCallable(() -> urlService.findUrlByKey(key))
+                .log()
                 .flatMap(Mono::justOrEmpty)
-                .map(ResponseEntity::ok);
+                .map(ulr -> ResponseEntity
+                        .status(HttpStatus.TEMPORARY_REDIRECT)
+                        .location(URI.create(ulr))
+                        .build());
     }
 
 }
