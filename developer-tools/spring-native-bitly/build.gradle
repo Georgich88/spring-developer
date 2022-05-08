@@ -46,10 +46,10 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-redis-reactive'
 
     // Swagger
-    implementation 'org.springdoc:springdoc-openapi-webflux-ui:1.6.5'
+    implementation 'org.springdoc:springdoc-openapi-webflux-ui:1.6.8'
 
     // Hashing
-    implementation 'com.google.guava:guava:31.0.1-jre'
+    implementation 'com.google.guava:guava:31.1-jre'
     implementation 'com.googlecode.perfect-hashes:perfect-hashes:1.0.1'
 
     // Logging
