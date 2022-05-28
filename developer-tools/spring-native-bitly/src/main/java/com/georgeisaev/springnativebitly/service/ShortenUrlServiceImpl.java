@@ -31,7 +31,12 @@ public class ShortenUrlServiceImpl implements ShortenUrlService {
     @Override
     public UrlDto shortenUrl(String url) {
         String key = Hashing.murmur3_32_fixed().hashString(url, Charset.defaultCharset()).toString();
-        var shortUrlEntry = UrlDto.builder().key(key).createdAt(LocalDateTime.now()).url(url).build();
+        var shortUrlEntry =
+                UrlDto.builder()
+                        .key(key)
+                        .createdAt(LocalDateTime.now())
+                        .url(url)
+                        .build();
         redisUrlTemplate.opsForValue().set(key, shortUrlEntry, 36000L, TimeUnit.SECONDS);
         return shortUrlEntry;
     }
